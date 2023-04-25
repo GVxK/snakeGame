@@ -14,6 +14,13 @@ let tailLength = 2
 let appleX = 5
 let appleY = 5
 
+function resizeCanvas() {
+    canvas.width = window.innerWidth
+    canvas.height = window.innerHeight
+}
+
+window.addEventListener("resize", resizeCanvas)
+resizeCanvas()
 class snakePart{
     constructor(x,y){
         this.x=x
@@ -39,7 +46,11 @@ drawGame()
 
 function drawSnake(){
     ctx.fillStyle = "orange"
-    ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize)
+    // ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize)
+    ctx.beginPath()
+    ctx.arc(headX*tileCount, headY*tileCount, 20, 0, Math.PI*2)
+    ctx.fill()
+    
     ctx.fillStyle ="green"
     for(let i=0; i<snakeParts.length;i++){
         let part = snakeParts[i]
@@ -48,7 +59,7 @@ function drawSnake(){
     snakeParts.push(new snakePart(headX, headY))
     if(snakeParts.length>tailLength){
         snakeParts.shift()
-    }
+    } 
 }
 
 document.body.addEventListener("keydown", keyDown)
