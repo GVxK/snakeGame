@@ -1,7 +1,7 @@
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
-let tileCount = 20
-let tileSize = 18
+let tileCount = 30
+let tileSize = 40
 //add snake
 let headX = 10
 let headY = 10
@@ -13,6 +13,8 @@ let tailLength = 2
 // add fruit
 let appleX = 5
 let appleY = 5
+//score
+let score = 0
 
 function resizeCanvas() {
     canvas.width = window.innerWidth
@@ -35,6 +37,7 @@ function drawGame(){
     checkCollision()
     drawApple()
     
+    
     let speed = 7
     setTimeout(drawGame, 1000/speed)
 }
@@ -45,12 +48,6 @@ function clearScreen(){
 drawGame()
 
 function drawSnake(){
-    ctx.fillStyle = "orange"
-    // ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize)
-    ctx.beginPath()
-    ctx.arc(headX*tileCount, headY*tileCount, 20, 0, Math.PI*2)
-    ctx.fill()
-    
     ctx.fillStyle ="green"
     for(let i=0; i<snakeParts.length;i++){
         let part = snakeParts[i]
@@ -60,6 +57,13 @@ function drawSnake(){
     if(snakeParts.length>tailLength){
         snakeParts.shift()
     } 
+
+    ctx.fillStyle = "orange"
+    ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize)
+    // ctx.beginPath()
+    // ctx.arc(headX*tileCount, headY*tileCount, 10, 0, Math.PI*2)
+    // ctx.fill()
+  
 }
 
 document.body.addEventListener("keydown", keyDown)
@@ -115,14 +119,14 @@ function drawApple(){
     ctx.fillStyle = "red"
     // ctx.fillRect(appleX*tileCount, appleY*tileCount, tileSize, tileSize)
     ctx.beginPath()
-    ctx.arc(headX*tileCount, headY*tileCount, 20, 0, Math.PI*2)
+    ctx.arc((appleX + 0.7)*tileCount, (appleY + 0.7)*tileCount, 20, 0, Math.PI*2)
     ctx.fill()
     
 }
 function checkCollision(){
     if(appleX == headX && appleY == headY){
-        appleX = Math.floor(Math.random()*tileCount)
-        appleY = Math.floor(Math.random()*tileCount)
+        appleX = Math.floor(Math.random()*(canvas.width/tileCount))
+        appleY = Math.floor(Math.random()*(canvas.height/tileCount))
         tailLength++
    
     }
