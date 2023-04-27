@@ -1,10 +1,10 @@
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
 let tileCount = 30
-let tileSize = 40
+let tileSize = 30
 //add snake
-let headX = 10
-let headY = 10
+let headX = Math.floor(window.innerWidth/(2*tileCount))
+let headY = Math.floor(window.innerHeight/(2*tileCount))
 let xVelocity = 0
 let yVelocity = 0
 // snake parts
@@ -15,14 +15,17 @@ let appleX = 5
 let appleY = 5
 //score
 let score = 0
+canvas.width = window.innerWidth
+canvas.height = window.innerHeight
 
-function resizeCanvas() {
+window.addEventListener("resize", function(){
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
-}
+    
+})
 
-window.addEventListener("resize", resizeCanvas)
-resizeCanvas()
+
+
 class snakePart{
     constructor(x,y){
         this.x=x
@@ -116,10 +119,12 @@ function changeSnakePosition(){
 }
 
 function drawApple(){
+    // appleX = Math.floor(Math.random()*(canvas.width/tileCount))
+    // appleY = Math.floor(Math.random()*(canvas.height/tileCount))
     ctx.fillStyle = "red"
     // ctx.fillRect(appleX*tileCount, appleY*tileCount, tileSize, tileSize)
     ctx.beginPath()
-    ctx.arc((appleX + 0.7)*tileCount, (appleY + 0.7)*tileCount, 20, 0, Math.PI*2)
+    ctx.arc((appleX + .5)*tileCount, (appleY + .5)*tileCount, 18, 0, Math.PI*2)
     ctx.fill()
     
 }
