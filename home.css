@@ -1,0 +1,24 @@
+body { 
+    background-color: black;
+    color: greenyellow;;
+    text-align: center;
+    margin-top: 250px;
+    
+}
+
+h1 {
+    font-size: 100px;
+    font-weight: bold;
+    
+}
+
+#title {
+    color: rgb(140, 202, 48);
+}
+#start-btn {
+    padding: 10px 40px;
+    background-color: rgb(2, 37, 2);
+    border: 2px solid greenyellow;
+    border-radius: 4px;
+    color: rgb(140, 202, 48);
+}

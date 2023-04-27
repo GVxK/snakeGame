@@ -1,10 +1,12 @@
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
-let tileCount = 30
-let tileSize = 30
+canvas.width = 852
+canvas.height = 480
+let tileCount = 20
+let tileSize = 20
 //add snake
-let headX = Math.floor(window.innerWidth/(2*tileCount))
-let headY = Math.floor(window.innerHeight/(2*tileCount))
+let headX = Math.floor(canvas.width/(2*tileCount))
+let headY = Math.floor(canvas.height/(2*tileCount))
 let xVelocity = 0
 let yVelocity = 0
 // snake parts
@@ -15,14 +17,16 @@ let appleX = 5
 let appleY = 5
 //score
 let score = 0
-canvas.width = window.innerWidth
-canvas.height = window.innerHeight
 
-window.addEventListener("resize", function(){
-    canvas.width = window.innerWidth
-    canvas.height = window.innerHeight
-    
+const backBtn = document.getElementById("back-btn") 
+backBtn.addEventListener("click", function(){
+    window.location.href = "home.html"
 })
+// window.addEventListener("resize", function(){
+//     canvas.width = window.innerWidth
+//     canvas.height = window.innerHeight
+    
+// })
 
 
 
@@ -124,7 +128,7 @@ function drawApple(){
     ctx.fillStyle = "red"
     // ctx.fillRect(appleX*tileCount, appleY*tileCount, tileSize, tileSize)
     ctx.beginPath()
-    ctx.arc((appleX + .5)*tileCount, (appleY + .5)*tileCount, 18, 0, Math.PI*2)
+    ctx.arc((appleX + .5)*tileCount, (appleY + .5)*tileCount, 12, 0, Math.PI*2)
     ctx.fill()
     
 }
