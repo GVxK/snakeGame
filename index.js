@@ -15,6 +15,7 @@ let tailLength = 2
 // add fruit
 let appleX = 5
 let appleY = 5
+let hue = 0
 //score
 let score = 0
 
@@ -125,13 +126,24 @@ function changeSnakePosition(){
 function drawApple(){
     // appleX = Math.floor(Math.random()*(canvas.width/tileCount))
     // appleY = Math.floor(Math.random()*(canvas.height/tileCount))
-    ctx.fillStyle = "red"
+    ctx.fillStyle = `hsl(${hue}, 100%, 50%)`
     // ctx.fillRect(appleX*tileCount, appleY*tileCount, tileSize, tileSize)
     ctx.beginPath()
     ctx.arc((appleX + .5)*tileCount, (appleY + .5)*tileCount, 12, 0, Math.PI*2)
     ctx.fill()
     
 }
+function animateApple() {
+    
+    if (hue > 30) {
+        hue--
+    } else if (hue == 0) {
+        hue++
+    }
+    requestAnimationFrame(animateApple)
+}
+animateApple()
+
 function checkCollision(){
     if(appleX == headX && appleY == headY){
         appleX = Math.floor(Math.random()*(canvas.width/tileCount))
