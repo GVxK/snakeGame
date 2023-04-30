@@ -1,5 +1,6 @@
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
+const scoreEl = document.getElementById("score-el")
 canvas.width = 852
 canvas.height = 480
 let tileCount = 20
@@ -19,6 +20,9 @@ let hue = 1
 const particlesArray = []
 //score
 let score = 0
+
+
+
 
 const backBtn = document.getElementById("back-btn") 
 backBtn.addEventListener("click", function(){
@@ -139,9 +143,20 @@ function checkCollision(){
         appleX = Math.floor(Math.random()*(canvas.width/tileCount))
         appleY = Math.floor(Math.random()*(canvas.height/tileCount))
         tailLength++
+        score++
+        if (score>10) score += 1
+        if (score>50) score += 1
+        if (score>100) score += 3
+        if (score>200) score += 6
+        if (score>500) score += 10
+        if (score>1000) score += 10
+        if (score>2000) score += 20
+        if (score>4000) score += 30
+        if (score>10000) score += 50
         for (i=0;i<tailLength*2;i++){
             particlesArray.push(new Particle())
         }
+        scoreEl.innerText = `Score: ${score} pts`
     }
 }
 
