@@ -40,6 +40,7 @@ body {
     margin: 60px 30px 10px 30px;
     display: flex;
     flex-direction: column;
+    
 }
 #right {
     margin: 60px 30px 10px 30px;
@@ -57,4 +58,20 @@ canvas {
     border: 2px solid greenyellow;
     border-radius: 4px;
     color: rgb(140, 202, 48);
+}
+
+@media (max-width:1000px) {
+    #left {
+        position: absolute;
+        top: -70px;
+        left: 320px;
+        display: flex;
+        flex-direction: column;
+    }
+     #right {
+        position: absolute;
+        left: 740px;
+        top: 120px;
+        margin: 0px;
+     }
 }
