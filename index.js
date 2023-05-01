@@ -5,6 +5,7 @@ canvas.width = 852
 canvas.height = 480
 let tileCount = 20
 let tileSize = 20
+let lastDirection = ""
 //add snake
 let headX = Math.floor(canvas.width/(2*tileCount))
 let headY = Math.floor(canvas.height/(2*tileCount))
@@ -61,63 +62,87 @@ function clearScreen(){
 drawGame()
 
 function drawSnake(){
-    ctx.fillStyle ="green"
+    if (lastDirection == "right") {
+        headR()
+    } else if (lastDirection == "left") {
+        headL()
+    } else if (lastDirection == "up") {
+        headU()
+    } else {
+        headD()
+    }
+    ctx.fillStyle ="rgb(73, 160, 15)"
     for(let i=0; i<snakeParts.length;i++){
         let part = snakeParts[i]
-        ctx.fillRect(part.x*tileCount, part.y*tileCount, tileSize, tileSize)
+    ctx.fillRect(part.x*tileCount, part.y*tileCount, tileSize, tileSize)
+    ctx.strokeStyle = 'yellowgreen';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(part.x*tileCount, part.y*tileCount, tileSize, tileSize);
+    
     }
     snakeParts.push(new snakePart(headX, headY))
     if(snakeParts.length>tailLength){
         snakeParts.shift()
     } 
 
-    ctx.fillStyle = "orange"
+    ctx.fillStyle = "yellowgreen"
     ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize)
-    // ctx.beginPath()
-    // ctx.arc(headX*tileCount, headY*tileCount, 10, 0, Math.PI*2)
-    // ctx.fill()
-  
+    
+    
 }
 
 document.body.addEventListener("keydown", keyDown)
 
 function keyDown(event){
-    if(event.keyCode == 38) {
+    if(event.keyCode == 38) { //up
         
         if (yVelocity == 1){
         yVelocity = 1
         xVelocity = 0
+        lastDirection = "down"
         } else {
             yVelocity = -1
             xVelocity = 0 
+            lastDirection = "up"
+            tongueU()
         }
+        
     }
     
-    if(event.keyCode == 40) {
+    if(event.keyCode == 40) { //down
         if (yVelocity == -1){
             yVelocity = -1
             xVelocity = 0
+            lastDirection = "up"
         } else {
             yVelocity = 1
             xVelocity = 0
+            lastDirection = "down"
+            tongueD()
         }
+        
     }
-    if(event.keyCode == 37) {
+    if(event.keyCode == 37) { //left
         if (xVelocity == 1){
             yVelocity = 0
             xVelocity = 1
+            lastDirection = "right"
         } else {
             yVelocity = 0
             xVelocity = -1
+            lastDirection = "left"
         } 
+        
     }
-    if (event.keyCode == 39) {
+    if (event.keyCode == 39) { //right
         if (xVelocity == -1){
             yVelocity = 0
             xVelocity = -1
+            lastDirection = "left"
         } else {
             yVelocity = 0
             xVelocity = 1
+            lastDirection = "right"
         } 
         
     }
@@ -129,21 +154,13 @@ function changeSnakePosition(){
 }
 
 function drawApple(){
-    // appleX = Math.floor(Math.random()*(canvas.width/tileCount))
-    // appleY = Math.floor(Math.random()*(canvas.height/tileCount))
     ctx.fillStyle = `hsl(${hue}, 100%, 50%)`
-    // ctx.fillRect(appleX*tileCount, appleY*tileCount, tileSize, tileSize)
     ctx.beginPath()
     ctx.arc((appleX + .5)*tileCount, (appleY + .5)*tileCount, 12, 0, Math.PI*2)
     ctx.fill()
-    
 }
-function checkCollision(){
-    if(appleX == headX && appleY == headY){
-        appleX = Math.floor(Math.random()*(canvas.width/tileCount))
-        appleY = Math.floor(Math.random()*(canvas.height/tileCount))
-        tailLength++
-        score++
+function getScore() {
+    score++
         if (score>10) score += 1
         if (score>50) score += 1
         if (score>100) score += 3
@@ -153,27 +170,20 @@ function checkCollision(){
         if (score>2000) score += 20
         if (score>4000) score += 30
         if (score>10000) score += 50
+
+}
+function checkCollision(){
+    if(appleX == headX && appleY == headY){
+        appleX = Math.floor(Math.random()*(canvas.width/tileCount))
+        appleY = Math.floor(Math.random()*(canvas.height/tileCount))
+        tailLength++
+        getScore()
         for (i=0;i<tailLength*2;i++){
             particlesArray.push(new Particle())
         }
         scoreEl.innerText = `Score: ${score} pts`
     }
 }
-
-// const mouse = {
-//     x:undefined,
-//     y:undefined
-// }
-
-
-// canvas.addEventListener("mousemove", function(event){
-//     mouse.x = event.x
-//     mouse.y = event.y
-//     for (i=0;i<3;i++){
-//         particlesArray.push(new Particle())
-//     }
-// })
-
 class Particle {
     constructor(){
         this.x = headX * tileCount
@@ -196,9 +206,6 @@ class Particle {
     }
     
 }
-
-
-
 function handleParticles(){
     for(let i = 0; i<particlesArray.length; i++){
         particlesArray[i].update()
@@ -209,20 +216,155 @@ function handleParticles(){
         }
     }
 }
-
-// function drawCircle(){
-//     ctx.fillStyle = "blue"
-//     ctx.beginPath()
-//     ctx.arc(mouse.x, mouse.y, 20, 0, 25)
-//     ctx.fill()
-// }
-
-
 function animate(){
     hue++
     if (hue>30) {hue = 0}
     handleParticles()
     requestAnimationFrame(animate)
-
 }
 animate()
+
+function headR() {
+ctx.fillStyle = `yellowgreen` //right
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +20, headY * tileCount +10, 10, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `yellowgreen`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +12, headY * tileCount +10, 12, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `yellowgreen`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +5, headY * tileCount +10, 11, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +20, headY * tileCount +14, 1.5, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +20, headY * tileCount +5, 1.5, 0, Math.PI*2)
+    ctx.fill()
+}
+
+function headL(){
+    ctx.fillStyle = `yellowgreen` //left
+    ctx.beginPath()
+    ctx.arc(headX * tileCount , headY * tileCount +10, 10, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `yellowgreen`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +9, headY * tileCount +10, 12, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `yellowgreen`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +15, headY * tileCount +10, 11, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount , headY * tileCount +14, 1.5, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount , headY * tileCount +5, 1.5, 0, Math.PI*2)
+    ctx.fill()
+}
+function headU(){
+    ctx.fillStyle = `yellowgreen` //up
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +10, headY * tileCount, 10, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `yellowgreen`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +10, headY * tileCount +9, 12, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `yellowgreen`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +10, headY * tileCount +15, 11, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +14, headY * tileCount , 1.5, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +5, headY * tileCount , 1.5, 0, Math.PI*2)
+    ctx.fill()
+}
+function headD() {
+    ctx.fillStyle = `yellowgreen` //down
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +10, headY * tileCount +20, 10, 0, Math.PI*2)
+    ctx.fill()
+     
+    ctx.fillStyle = `yellowgreen`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +10, headY * tileCount +12, 12, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `yellowgreen`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +10, headY * tileCount +5, 11, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +14, headY * tileCount +20, 1.5, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +5, headY * tileCount +20, 1.5, 0, Math.PI*2)
+    ctx.fill()
+}
+function tongueD () {
+    ctx.beginPath();
+    ctx.moveTo(headX * tileCount+10, headY * tileCount+30);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount+20);
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(headX * tileCount+13, headY * tileCount+35);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount+30);
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(headX * tileCount+6, headY * tileCount+35);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount+30);
+    ctx.strokeStyle = 'red'
+    ctx.stroke();
+}
+
+function tongueU () {
+    ctx.beginPath();
+    ctx.moveTo(headX * tileCount+10, headY * tileCount-20);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount-10);
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(headX * tileCount+13, headY * tileCount-25);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount-20);
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(headX * tileCount+6, headY * tileCount-25);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount-20);
+    ctx.strokeStyle = 'red'
+    ctx.stroke();
+}
