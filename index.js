@@ -62,15 +62,7 @@ function clearScreen(){
 drawGame()
 
 function drawSnake(){
-    if (lastDirection == "right") {
-        headR()
-    } else if (lastDirection == "left") {
-        headL()
-    } else if (lastDirection == "up") {
-        headU()
-    } else {
-        headD()
-    }
+  
     ctx.fillStyle ="rgb(73, 160, 15)"
     for(let i=0; i<snakeParts.length;i++){
         let part = snakeParts[i]
@@ -84,9 +76,19 @@ function drawSnake(){
     if(snakeParts.length>tailLength){
         snakeParts.shift()
     } 
-
-    ctx.fillStyle = "yellowgreen"
-    ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize)
+    // if (lastDirection == "right") {
+    //     headR()
+    // } else if (lastDirection == "left") {
+    //     headL()
+    // } else if (lastDirection == "up") {
+    //     headU()
+    // } else {
+    //     headD()
+    // }
+    headR()
+    // headL()
+    
+    
     
     
 }
@@ -240,14 +242,24 @@ ctx.fillStyle = `yellowgreen` //right
     ctx.arc(headX * tileCount +5, headY * tileCount +10, 11, 0, Math.PI*2)
     ctx.fill()
 
-    ctx.fillStyle = `black`
+    ctx.fillStyle = `white`
     ctx.beginPath()
-    ctx.arc(headX * tileCount +20, headY * tileCount +14, 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount +20, headY * tileCount +14, 5, 0, Math.PI*2)
     ctx.fill()
 
     ctx.fillStyle = `black`
     ctx.beginPath()
-    ctx.arc(headX * tileCount +20, headY * tileCount +5, 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount +22, headY * tileCount +14, 2, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `white`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +20, headY * tileCount +5, 5, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +22, headY * tileCount +5, 2, 0, Math.PI*2)
     ctx.fill()
 }
 
@@ -293,14 +305,24 @@ function headU(){
     ctx.arc(headX * tileCount +10, headY * tileCount +15, 11, 0, Math.PI*2)
     ctx.fill()
 
-    ctx.fillStyle = `black`
+    ctx.fillStyle = `white`
     ctx.beginPath()
-    ctx.arc(headX * tileCount +14, headY * tileCount , 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount +15, headY * tileCount, 5, 0, Math.PI*2)
     ctx.fill()
 
     ctx.fillStyle = `black`
     ctx.beginPath()
-    ctx.arc(headX * tileCount +5, headY * tileCount , 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount +15, headY * tileCount -2, 2, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `white`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +4, headY * tileCount, 5, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +4, headY * tileCount -2, 2, 0, Math.PI*2)
     ctx.fill()
 }
 function headD() {
@@ -319,52 +341,64 @@ function headD() {
     ctx.arc(headX * tileCount +10, headY * tileCount +5, 11, 0, Math.PI*2)
     ctx.fill()
 
+    ctx.fillStyle = `white`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +15, headY * tileCount +20, 5, 0, Math.PI*2)
+    ctx.fill()
+    
     ctx.fillStyle = `black`
     ctx.beginPath()
-    ctx.arc(headX * tileCount +14, headY * tileCount +20, 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount +15, headY * tileCount +22, 2, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `white`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +4, headY * tileCount +20, 5, 0, Math.PI*2)
     ctx.fill()
 
     ctx.fillStyle = `black`
     ctx.beginPath()
-    ctx.arc(headX * tileCount +5, headY * tileCount +20, 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount +4, headY * tileCount +22, 2, 0, Math.PI*2)
     ctx.fill()
+
+    
 }
 function tongueD () {
     ctx.beginPath();
-    ctx.moveTo(headX * tileCount+10, headY * tileCount+30);
+    ctx.moveTo(headX * tileCount+10, headY * tileCount+20);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount+10);
+    ctx.strokeStyle = 'red';
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.moveTo(headX * tileCount+13, headY * tileCount+25);
     ctx.lineTo(headX * tileCount+10, headY * tileCount+20);
     ctx.strokeStyle = 'red';
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(headX * tileCount+13, headY * tileCount+35);
-    ctx.lineTo(headX * tileCount+10, headY * tileCount+30);
-    ctx.strokeStyle = 'red';
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(headX * tileCount+6, headY * tileCount+35);
-    ctx.lineTo(headX * tileCount+10, headY * tileCount+30);
+    ctx.moveTo(headX * tileCount+6, headY * tileCount+25);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount+20);
     ctx.strokeStyle = 'red'
     ctx.stroke();
 }
 
 function tongueU () {
     ctx.beginPath();
-    ctx.moveTo(headX * tileCount+10, headY * tileCount-20);
-    ctx.lineTo(headX * tileCount+10, headY * tileCount-10);
+    ctx.moveTo(headX * tileCount+10, headY * tileCount-0);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount+10);
     ctx.strokeStyle = 'red';
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(headX * tileCount+13, headY * tileCount-25);
-    ctx.lineTo(headX * tileCount+10, headY * tileCount-20);
+    ctx.moveTo(headX * tileCount+13, headY * tileCount-05);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount-00);
     ctx.strokeStyle = 'red';
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(headX * tileCount+6, headY * tileCount-25);
-    ctx.lineTo(headX * tileCount+10, headY * tileCount-20);
+    ctx.moveTo(headX * tileCount+6, headY * tileCount-05);
+    ctx.lineTo(headX * tileCount+10, headY * tileCount-00);
     ctx.strokeStyle = 'red'
     ctx.stroke();
 }
