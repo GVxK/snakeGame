@@ -60,7 +60,7 @@ canvas {
     color: rgb(140, 202, 48);
 }
 
-@media (max-width:1000px) {
+@media (max-width:1200px) {
     #left {
         position: absolute;
         top: -70px;
@@ -73,5 +73,6 @@ canvas {
         left: 740px;
         top: 120px;
         margin: 0px;
-     }
+        text-align: right;
+    }
 }
