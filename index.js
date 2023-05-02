@@ -76,18 +76,15 @@ function drawSnake(){
     if(snakeParts.length>tailLength){
         snakeParts.shift()
     } 
-    // if (lastDirection == "right") {
-    //     headR()
-    // } else if (lastDirection == "left") {
-    //     headL()
-    // } else if (lastDirection == "up") {
-    //     headU()
-    // } else {
-    //     headD()
-    // }
-    headR()
-    // headL()
-    
+    if (lastDirection == "right") {
+        headR()
+    } else if (lastDirection == "left") {
+        headL()
+    } else if (lastDirection == "up") {
+        headU()
+    } else {
+        headD()
+    }
     
     
     
@@ -227,7 +224,7 @@ function animate(){
 animate()
 
 function headR() {
-ctx.fillStyle = `yellowgreen` //right
+    ctx.fillStyle = `yellowgreen` //right
     ctx.beginPath()
     ctx.arc(headX * tileCount +20, headY * tileCount +10, 10, 0, Math.PI*2)
     ctx.fill()
@@ -279,14 +276,24 @@ function headL(){
     ctx.arc(headX * tileCount +15, headY * tileCount +10, 11, 0, Math.PI*2)
     ctx.fill()
 
-    ctx.fillStyle = `black`
+    ctx.fillStyle = `white`
     ctx.beginPath()
-    ctx.arc(headX * tileCount , headY * tileCount +14, 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount +0, headY * tileCount +14, 5, 0, Math.PI*2)
     ctx.fill()
 
     ctx.fillStyle = `black`
     ctx.beginPath()
-    ctx.arc(headX * tileCount , headY * tileCount +5, 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount -2, headY * tileCount +14, 1.5, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `white`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount +0, headY * tileCount +5, 5, 0, Math.PI*2)
+    ctx.fill()
+
+    ctx.fillStyle = `black`
+    ctx.beginPath()
+    ctx.arc(headX * tileCount -2, headY * tileCount +5, 1.5, 0, Math.PI*2)
     ctx.fill()
 }
 function headU(){
