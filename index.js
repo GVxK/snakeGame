@@ -1,8 +1,8 @@
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
 const scoreEl = document.getElementById("score-el")
-// canvas.width = 852
-// canvas.height = 480
+canvas.width = 852
+canvas.height = 480
 let tileCount = 20
 let tileSize = 20
 let lastDirection = ""
@@ -283,7 +283,7 @@ function headL(){
 
     ctx.fillStyle = `black`
     ctx.beginPath()
-    ctx.arc(headX * tileCount -2, headY * tileCount +14, 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount -2, headY * tileCount +14, 2, 0, Math.PI*2)
     ctx.fill()
 
     ctx.fillStyle = `white`
@@ -293,7 +293,7 @@ function headL(){
 
     ctx.fillStyle = `black`
     ctx.beginPath()
-    ctx.arc(headX * tileCount -2, headY * tileCount +5, 1.5, 0, Math.PI*2)
+    ctx.arc(headX * tileCount -2, headY * tileCount +5, 2, 0, Math.PI*2)
     ctx.fill()
 }
 function headU(){

@@ -77,4 +77,28 @@ canvas {
     }
 }  */
 
-
+#main {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    
+}
+.canvas-area {
+    grid-area: 2/2/6/4;
+    background-color: aliceblue;
+}
+canvas {
+    width: 100%;
+}
+#right {
+    grid-area: 2/4/5;
+    background-color: blue;
+}
+#left {
+    grid-area: 2/1/5/2;
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
