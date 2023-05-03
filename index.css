@@ -9,7 +9,7 @@ body {
     height: 100px;
 }
 
-/* #ul {
+ #ul { 
     text-align: center;
     border: 2px solid lightblue;
     
@@ -21,7 +21,7 @@ body {
     display: inline-block;
     margin: 0px 20px 0px 0px;
     
-} */
+}
 #main {
     display: flex;
     flex-direction: row;
@@ -75,4 +75,6 @@ canvas {
         margin: 0px;
         text-align: right;
     }
-}
+} 
+
+

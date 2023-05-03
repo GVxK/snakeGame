@@ -1,8 +1,8 @@
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
 const scoreEl = document.getElementById("score-el")
-canvas.width = 852
-canvas.height = 480
+// canvas.width = 852
+// canvas.height = 480
 let tileCount = 20
 let tileSize = 20
 let lastDirection = ""
