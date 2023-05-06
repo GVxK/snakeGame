@@ -146,10 +146,11 @@ canvas {
     }
     #left {
         grid-area: 1/2;
+        
     }
     #right {
         grid-area: 2/2/2/3;
         padding-bottom: 99px;
-        padding-left: 20px;
+        
     }
 }
