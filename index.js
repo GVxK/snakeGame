@@ -29,11 +29,6 @@ const backBtn = document.getElementById("back-btn")
 backBtn.addEventListener("click", function(){
     window.location.href = "home.html"
 })
-// window.addEventListener("resize", function(){
-//     canvas.width = window.innerWidth
-//     canvas.height = window.innerHeight
-    
-// })
 
 
 
