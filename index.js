@@ -40,6 +40,8 @@ class snakePart{
 }
 
 function drawGame(){
+    let result = isGameOver()
+    if (result) return
     clearScreen()
     drawSnake()
     changeSnakePosition()
@@ -56,6 +58,9 @@ function clearScreen(){
 }
 drawGame()
 
+function isGameOver() {
+    if (headX < 0 &&)
+}
 function drawSnake(){
   
     ctx.fillStyle ="rgb(73, 160, 15)"
