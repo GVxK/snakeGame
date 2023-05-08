@@ -79,11 +79,13 @@ function isGameOver() {
     if ( headX < 0 || headY < 0 || headX > 40 || headY > 23) {
         gameOver = true
     }
-    for ( let i = 0; i < snakeParts.length; i++){
+    for ( let i = 2; i < snakeParts.length; i++){
         let part = snakeParts[i]
-        if (gameStarted == true && part.x*tileCount == headX && part.y*tileCount == headY) {
+        if (part.x === headX && part.y === headY) {
         gameOver = true
+        break
         }
+    }
     
     if(gameOver){
         ctx.fillStyle="white"
@@ -91,7 +93,7 @@ function isGameOver() {
         ctx.fillText("Game Over! ", canvas.width/3.2, canvas.height/2)
     }
         return gameOver
-    }
+    
     }
 function drawSnake(){
   
