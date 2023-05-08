@@ -1,7 +1,7 @@
 const canvas = document.getElementById("game")
 const ctx = canvas.getContext("2d")
 const scoreEl = document.getElementById("score-el")
-canvas.width = 852
+canvas.width = 820
 canvas.height = 480
 let tileCount = 20
 let tileSize = 20
@@ -59,8 +59,40 @@ function clearScreen(){
 drawGame()
 
 function isGameOver() {
-    if (headX < 0 &&)
-}
+    let gameOver = false
+    let gameStarted = true
+
+    if (yVelocity === 0 && xVelocity === 0) {
+        gameOver = false
+        gameStarted = false
+    }           
+    if (yVelocity > 0 && xVelocity > 0) {
+        gameOver = false
+        gameStarted = true
+    }
+
+    if (yVelocity < 0 && xVelocity < 0) {
+        gameOver = false
+        gameStarted = true
+    }
+
+    if ( headX < 0 || headY < 0 || headX > 40 || headY > 23) {
+        gameOver = true
+    }
+    for ( let i = 0; i < snakeParts.length; i++){
+        let part = snakeParts[i]
+        if (gameStarted == true && part.x*tileCount == headX && part.y*tileCount == headY) {
+        gameOver = true
+        }
+    
+    if(gameOver){
+        ctx.fillStyle="white"
+        ctx.font="50px verdana"
+        ctx.fillText("Game Over! ", canvas.width/3.2, canvas.height/2)
+    }
+        return gameOver
+    }
+    }
 function drawSnake(){
   
     ctx.fillStyle ="rgb(73, 160, 15)"
@@ -184,6 +216,28 @@ function checkCollision(){
     }
 }
 class Particle {
+    constructor(){
+        this.x = headX * tileCount
+        this.y = headY * tileCount
+        this.size = Math.random() *tailLength/10 + 1
+        this.speedX = Math.random() *3 - 1.5
+        this.speedY = Math.random() *3 - 1.5
+        this.color = `hsl(${hue}, 100%, 50%)`
+    }
+    update(){
+        this.x += this.speedX
+        this.y += this.speedY
+        if (this.size >0.2) this.size -= 0.05
+    }
+    draw() {
+        ctx.fillStyle = this.color
+        ctx.beginPath()
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI *2)
+        ctx.fill()
+    }
+    
+}
+class deathParticle {
     constructor(){
         this.x = headX * tileCount
         this.y = headY * tileCount
