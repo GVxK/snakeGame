@@ -24,7 +24,8 @@ let score = 0
 //add death particles
 const deathParticlesArray = []
 
-
+let disableKeys = false
+let gameStarted = false
 
 const backBtn = document.getElementById("back-btn") 
 backBtn.addEventListener("click", function(){
@@ -33,13 +34,13 @@ backBtn.addEventListener("click", function(){
 
 
 
+
 class snakePart{
     constructor(x,y){
         this.x=x
         this.y=y
     }
-}
-
+}   
 function drawGame(){
     let result = isGameOver()
     if (result) return
@@ -61,33 +62,27 @@ drawGame()
 
 function isGameOver() {
     let gameOver = false
-    let gameStarted = true
 
     if (yVelocity === 0 && xVelocity === 0) {
         gameOver = false
         gameStarted = false
     }           
-    if (yVelocity > 0 && xVelocity > 0) {
+    if (yVelocity > 0 || xVelocity > 0 || yVelocity < 0 || xVelocity < 0) {
         gameOver = false
         gameStarted = true
     }
-
-    if (yVelocity < 0 && xVelocity < 0) {
-        gameOver = false
-        gameStarted = true
-    }
-
-    if ( headX < 0 || headY < 0 || headX > 40 || headY > 23) {
-        gameOver = true
-        for (i=0;i<tailLength*50;i++){
+        if ( headX < 0 || headY < 0 || headX > 40 || headY > 23) {
+        // gameOver = true
+        for (i = 0; i < tailLength*50; i++){
             deathParticlesArray.push(new deathParticle())
+            disableKeys = true
         }
     }
     for ( let i = 2; i < snakeParts.length; i++){
         let part = snakeParts[i]
         if (part.x === headX && part.y === headY) {
-        gameOver = true
-        for (i=0;i<tailLength*50;i++){
+        // gameOver = true
+        for (i = 0; i < tailLength*50; i++){
             deathParticlesArray.push(new deathParticle())
         }
         break
@@ -102,10 +97,11 @@ function isGameOver() {
         return gameOver
     
     }
+ 
 function drawSnake(){
-  
+    //snake body parts
     ctx.fillStyle ="rgb(73, 160, 15)"
-    for(let i=0; i<snakeParts.length;i++){
+    for (let i = 0; i < snakeParts.length; i++){
         let part = snakeParts[i]
     ctx.fillRect(part.x*tileCount, part.y*tileCount, tileSize, tileSize)
     ctx.strokeStyle = 'yellowgreen';
@@ -114,9 +110,10 @@ function drawSnake(){
     
     }
     snakeParts.push(new snakePart(headX, headY))
-    if(snakeParts.length>tailLength){
+    if(snakeParts.length>tailLength){//keep snake's body = snake's length
         snakeParts.shift()
     } 
+    //snake's head
     if (lastDirection == "right") {
         headR()
     } else if (lastDirection == "left") {
@@ -131,26 +128,27 @@ function drawSnake(){
     
 }
 
+//bind movement to keys
 document.body.addEventListener("keydown", keyDown)
 
 function keyDown(event){
     if(event.keyCode == 38) { //up
         
-        if (yVelocity == 1){
+        if (yVelocity == 1){//disable moving into self
         yVelocity = 1
         xVelocity = 0
         lastDirection = "down"
         } else {
             yVelocity = -1
             xVelocity = 0 
-            lastDirection = "up"
-            tongueU()
+            lastDirection = "up"//set which direction the snake is facing
+            tongueU()//tongue animation
         }
         
     }
     
     if(event.keyCode == 40) { //down
-        if (yVelocity == -1){
+        if (yVelocity == -1){ 
             yVelocity = -1
             xVelocity = 0
             lastDirection = "up"
@@ -187,7 +185,11 @@ function keyDown(event){
         
     }
 }
-
+document.addEventListener('keydown', function(event) {
+    if (gameStarted) {
+      event.preventDefault();
+    }
+  })
 function changeSnakePosition(){
     headX += xVelocity
     headY += yVelocity
@@ -198,6 +200,20 @@ function drawApple(){
     ctx.beginPath()
     ctx.arc((appleX + .5)*tileCount, (appleY + .5)*tileCount, 12, 0, Math.PI*2)
     ctx.fill()
+}
+
+//when apple gets eaten
+function checkCollision(){
+    if(appleX == headX && appleY == headY){
+        appleX = Math.floor(Math.random()*(canvas.width/tileCount))
+        appleY = Math.floor(Math.random()*(canvas.height/tileCount))
+        tailLength++
+        getScore()
+        for (i = 0; i < tailLength*2; i++){
+            particlesArray.push(new Particle())
+        }
+        scoreEl.innerText = `Score: ${score} pts`
+    }
 }
 function getScore() {
     score++
@@ -212,18 +228,17 @@ function getScore() {
         if (score>10000) score += 50
 
 }
-function checkCollision(){
-    if(appleX == headX && appleY == headY){
-        appleX = Math.floor(Math.random()*(canvas.width/tileCount))
-        appleY = Math.floor(Math.random()*(canvas.height/tileCount))
-        tailLength++
-        getScore()
-        for (i=0;i<tailLength*2;i++){
-            particlesArray.push(new Particle())
-        }
-        scoreEl.innerText = `Score: ${score} pts`
-    }
+
+//animation and particles
+function animate(){
+    hue++
+    if (hue>30) {hue = 0}
+    handleParticles(particlesArray)
+    handleParticles(deathParticlesArray)
+    requestAnimationFrame(animate)
 }
+animate()
+//apple eaten particles
 class Particle {
     constructor(){
         this.x = headX * tileCount
@@ -244,16 +259,19 @@ class Particle {
         ctx.arc(this.x, this.y, this.size, 0, Math.PI *2)
         ctx.fill()
     }
-    
 }
+//death particles when touching borders or itself
 class deathParticle {
     constructor(){
         this.x = headX * tileCount
         this.y = headY * tileCount
-        this.size = Math.random() *tailLength/10 + 1
-        this.speedX = Math.random() *3 - 1.5
-        this.speedY = Math.random() *3 - 1.5
-        this.color = `green`
+        this.size = (Math.random() *15) +1
+        this.speedX = (Math.random() *3) -1.5
+        this.speedY = (Math.random() *3) -1.5
+        const greens = ["yellowgreen", "green", "darkgreen"]
+         let randomColor = Math.floor(Math.random()*3)
+        this.color = greens[randomColor]
+
     }
     update(){
         this.x += this.speedX
@@ -268,37 +286,21 @@ class deathParticle {
     }
     
 }
-function handleParticles(){
-    for(let i = 0; i<particlesArray.length; i++){
-        particlesArray[i].update()
-        particlesArray[i].draw()
-        if (particlesArray[i].size <= 0.3) {
-            particlesArray.splice(i, 1)
+//make particles move, shrink and disappear
+function handleParticles(array){
+    for(let i = 0; i<array.length; i++){
+        array[i].update()
+        array[i].draw()
+        if (array[i].size <= 0.3) {
+            array.splice(i, 1)
             i--
         }
     }
 }
-function handleDeathParticles(){
-    for(let i = 0; i<deathParticlesArray.length; i++){
-        deathParticlesArray[i].update()
-        deathParticlesArray[i].draw()
-        if (deathParticlesArray[i].size <= 0.3) {
-            deathParticlesArray.splice(i, 1)
-            i--
-        }
-    }
-}
-function animate(){
-    hue++
-    if (hue>30) {hue = 0}
-    handleParticles()
-    handleDeathParticles()
-    requestAnimationFrame(animate)
-}
-animate()
 
-function headR() {
-    ctx.fillStyle = `yellowgreen` //right
+// draw snake's head for each direction
+function headR() { //right
+    ctx.fillStyle = `yellowgreen` 
     ctx.beginPath()
     ctx.arc(headX * tileCount +20, headY * tileCount +10, 10, 0, Math.PI*2)
     ctx.fill()
@@ -333,9 +335,8 @@ function headR() {
     ctx.arc(headX * tileCount +22, headY * tileCount +5, 2, 0, Math.PI*2)
     ctx.fill()
 }
-
-function headL(){
-    ctx.fillStyle = `yellowgreen` //left
+function headL(){ //left
+    ctx.fillStyle = `yellowgreen` 
     ctx.beginPath()
     ctx.arc(headX * tileCount , headY * tileCount +10, 10, 0, Math.PI*2)
     ctx.fill()
@@ -350,6 +351,7 @@ function headL(){
     ctx.arc(headX * tileCount +15, headY * tileCount +10, 11, 0, Math.PI*2)
     ctx.fill()
 
+    //eyes
     ctx.fillStyle = `white`
     ctx.beginPath()
     ctx.arc(headX * tileCount +0, headY * tileCount +14, 5, 0, Math.PI*2)
@@ -370,7 +372,7 @@ function headL(){
     ctx.arc(headX * tileCount -2, headY * tileCount +5, 2, 0, Math.PI*2)
     ctx.fill()
 }
-function headU(){
+function headU(){ //up
     ctx.fillStyle = `yellowgreen` //up
     ctx.beginPath()
     ctx.arc(headX * tileCount +10, headY * tileCount, 10, 0, Math.PI*2)
@@ -386,6 +388,7 @@ function headU(){
     ctx.arc(headX * tileCount +10, headY * tileCount +15, 11, 0, Math.PI*2)
     ctx.fill()
 
+    // eyes
     ctx.fillStyle = `white`
     ctx.beginPath()
     ctx.arc(headX * tileCount +15, headY * tileCount, 5, 0, Math.PI*2)
@@ -406,7 +409,7 @@ function headU(){
     ctx.arc(headX * tileCount +4, headY * tileCount -2, 2, 0, Math.PI*2)
     ctx.fill()
 }
-function headD() {
+function headD() { //down
     ctx.fillStyle = `yellowgreen` //down
     ctx.beginPath()
     ctx.arc(headX * tileCount +10, headY * tileCount +20, 10, 0, Math.PI*2)
@@ -422,6 +425,7 @@ function headD() {
     ctx.arc(headX * tileCount +10, headY * tileCount +5, 11, 0, Math.PI*2)
     ctx.fill()
 
+    //eyes
     ctx.fillStyle = `white`
     ctx.beginPath()
     ctx.arc(headX * tileCount +15, headY * tileCount +20, 5, 0, Math.PI*2)
@@ -444,7 +448,9 @@ function headD() {
 
     
 }
-function tongueD () {
+
+//draw snake's tongue
+function tongueD () { //down
     ctx.beginPath();
     ctx.moveTo(headX * tileCount+10, headY * tileCount+20);
     ctx.lineTo(headX * tileCount+10, headY * tileCount+10);
@@ -463,8 +469,7 @@ function tongueD () {
     ctx.strokeStyle = 'red'
     ctx.stroke();
 }
-
-function tongueU () {
+function tongueU () { //up
     ctx.beginPath();
     ctx.moveTo(headX * tileCount+10, headY * tileCount-0);
     ctx.lineTo(headX * tileCount+10, headY * tileCount+10);
