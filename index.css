@@ -84,7 +84,7 @@ body {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    gap: 10px;
+    gap: 20px;
     height: 100vh;
     
     
@@ -102,6 +102,7 @@ canvas {
 #right {
     grid-area: 4/9/10/11;
     color: white;
+    margin-left: 5px;
 }
 #left {
     color: white;
@@ -110,7 +111,6 @@ canvas {
     flex-direction: column;
     justify-content: start;
     align-items: center;
-    width: 100%;
 }
 .sub-title {
     border-bottom: 3px solid darkolivegreen;

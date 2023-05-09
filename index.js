@@ -21,7 +21,8 @@ let hue = 1
 const particlesArray = []
 //score
 let score = 0
-
+//add death particles
+const deathParticlesArray = []
 
 
 
@@ -78,11 +79,17 @@ function isGameOver() {
 
     if ( headX < 0 || headY < 0 || headX > 40 || headY > 23) {
         gameOver = true
+        for (i=0;i<tailLength*50;i++){
+            deathParticlesArray.push(new deathParticle())
+        }
     }
     for ( let i = 2; i < snakeParts.length; i++){
         let part = snakeParts[i]
         if (part.x === headX && part.y === headY) {
         gameOver = true
+        for (i=0;i<tailLength*50;i++){
+            deathParticlesArray.push(new deathParticle())
+        }
         break
         }
     }
@@ -246,7 +253,7 @@ class deathParticle {
         this.size = Math.random() *tailLength/10 + 1
         this.speedX = Math.random() *3 - 1.5
         this.speedY = Math.random() *3 - 1.5
-        this.color = `hsl(${hue}, 100%, 50%)`
+        this.color = `green`
     }
     update(){
         this.x += this.speedX
@@ -271,10 +278,21 @@ function handleParticles(){
         }
     }
 }
+function handleDeathParticles(){
+    for(let i = 0; i<deathParticlesArray.length; i++){
+        deathParticlesArray[i].update()
+        deathParticlesArray[i].draw()
+        if (deathParticlesArray[i].size <= 0.3) {
+            deathParticlesArray.splice(i, 1)
+            i--
+        }
+    }
+}
 function animate(){
     hue++
     if (hue>30) {hue = 0}
     handleParticles()
+    handleDeathParticles()
     requestAnimationFrame(animate)
 }
 animate()
