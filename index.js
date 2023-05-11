@@ -70,22 +70,30 @@ function isGameOver() {
     if (yVelocity > 0 || xVelocity > 0 || yVelocity < 0 || xVelocity < 0) {
         gameOver = false
         gameStarted = true
+        disableKeys = true
     }
-        if ( headX < 0 || headY < 0 || headX > 40 || headY > 23) {
-        // gameOver = true
-        for (i = 0; i < tailLength*50; i++){
-            deathParticlesArray.push(new deathParticle())
-            disableKeys = true
+    if ( headX === -1 || headY === -1 || headX === 41 || headY === 24) {
+    gameOver = true
+    for (i = 0; i < tailLength*50; i++){
+        deathParticlesArray.push(new deathParticle())
+    }
+    }
+    for (let j = 0; j < snakeParts.length; j++) {
+        let part = snakeParts[j]
+        if ( part.x === -1 || part.y === -1 || part.x === 41 || part.y === 24) {
+            gameOver = true
+            for (i = 0; i < tailLength*50; i++){
+                deathParticlesArray.push(new deathParticle())
+        }
         }
     }
-    for ( let i = 2; i < snakeParts.length; i++){
+    for (let i = 2; i < snakeParts.length; i++) {
         let part = snakeParts[i]
         if (part.x === headX && part.y === headY) {
-        // gameOver = true
-        for (i = 0; i < tailLength*50; i++){
+        gameOver = true
+        for (i = 0; i < tailLength*10; i++){
             deathParticlesArray.push(new deathParticle())
         }
-        break
         }
     }
     
@@ -94,7 +102,7 @@ function isGameOver() {
         ctx.font="50px verdana"
         ctx.fillText("Game Over! ", canvas.width/3.2, canvas.height/2)
     }
-        return gameOver
+        // return gameOver
     
     }
  
@@ -132,6 +140,9 @@ function drawSnake(){
 document.body.addEventListener("keydown", keyDown)
 
 function keyDown(event){
+    if ( headX < 0 || headY < 0 || headX > 40 || headY > 23) {
+        return
+    }
     if(event.keyCode == 38) { //up
         
         if (yVelocity == 1){//disable moving into self
