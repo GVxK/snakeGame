@@ -27,6 +27,8 @@ const deathParticlesArray = []
 let disableKeys = false
 let gameStarted = false
 
+let gameOver = false
+
 const backBtn = document.getElementById("back-btn") 
 backBtn.addEventListener("click", function(){
     window.location.href = "home.html"
@@ -42,8 +44,7 @@ class snakePart{
     }
 }   
 function drawGame(){
-    let result = isGameOver()
-    if (result) return
+    isGameOver()
     clearScreen()
     drawSnake()
     changeSnakePosition()
@@ -74,7 +75,7 @@ function isGameOver() {
     }
     if ( headX === -1 || headY === -1 || headX === 41 || headY === 24) {
     gameOver = true
-    for (i = 0; i < tailLength*50; i++){
+    for (i = 0; i < tailLength*20; i++){
         deathParticlesArray.push(new deathParticle())
     }
     }
@@ -82,12 +83,13 @@ function isGameOver() {
         let part = snakeParts[j]
         if ( part.x === -1 || part.y === -1 || part.x === 41 || part.y === 24) {
             gameOver = true
-            for (i = 0; i < tailLength*50; i++){
+            for (i = 0; i < tailLength*10; i++){
                 deathParticlesArray.push(new deathParticle())
         }
         }
     }
-    for (let i = 2; i < snakeParts.length; i++) {
+    if (gameStarted) {
+        for (let i = 2; i < snakeParts.length; i++) {
         let part = snakeParts[i]
         if (part.x === headX && part.y === headY) {
         gameOver = true
@@ -95,15 +97,14 @@ function isGameOver() {
             deathParticlesArray.push(new deathParticle())
         }
         }
+        }
     }
     
-    if(gameOver){
+    if(gameOver === true){
         ctx.fillStyle="white"
         ctx.font="50px verdana"
         ctx.fillText("Game Over! ", canvas.width/3.2, canvas.height/2)
-    }
-        // return gameOver
-    
+    }   
     }
  
 function drawSnake(){
