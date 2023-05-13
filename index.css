@@ -96,6 +96,7 @@ ul {
 }
 li {
     margin-right: 15px;
+    grid-area: 1/1/2/9;
 }
 .social-icons {
     background-color: black;
@@ -109,7 +110,7 @@ li {
   }
   
   .social-icons:hover {
-    box-shadow: 0 0 10px 5px rgba(0, 255, 0, 0.5);
+    box-shadow: 0 0 10px 5px yellowgreen;
   }
 .canvas-area {
     grid-area: 3/3/7/9;
