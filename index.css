@@ -87,15 +87,20 @@ body {
     gap: 20px;
     height: 100vh; 
 }
+
+#nav {
+    grid-area: 1/1/2/11;
+    background-color: black;
+}
 ul {
     list-style: none;
     display: inline-flex;
     justify-content: end;
-    grid-area: 1/1/2/11;
-    background-color: black;
+    grid-area: 1/1/2/9;
 }
 li {
-    margin-right: 15px;
+    margin-left: 15px;
+    margin-right: -15-px;
     grid-area: 1/1/2/9;
 }
 .social-icons {
