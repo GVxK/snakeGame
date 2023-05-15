@@ -88,19 +88,23 @@ body {
     height: 100vh; 
 }
 
-#nav {
+nav { 
     grid-area: 1/1/2/11;
     background-color: wheat;
+    display: flex;
 }
 ul {
     list-style: none;
     display: inline-flex;
     justify-content: end;
+    align-items: end;
     grid-area: 1/8/2/9;
     margin-right: -15px;
+    background-color: aliceblue;
 }
 li {
     margin-left: 15px;
+    
     
     
 }
