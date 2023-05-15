@@ -90,8 +90,10 @@ body {
 
 nav { 
     grid-area: 1/1/2/11;
-    background-color: wheat;
+    background-color: black;
     display: flex;
+    justify-content: end;
+    margin-right: 285px;
 }
 ul {
     list-style: none;
@@ -99,8 +101,7 @@ ul {
     justify-content: end;
     align-items: end;
     grid-area: 1/8/2/9;
-    margin-right: -15px;
-    background-color: aliceblue;
+    margin-right: -15px; 
 }
 li {
     margin-left: 15px;
