@@ -94,6 +94,7 @@ nav {
     display: flex;
     justify-content: end;
     margin-right: 285px;
+    color: white;
 }
 ul {
     list-style: none;
